@@ -1,4 +1,4 @@
-name: Autowini_Ultimate_Fix
+name: Autowini_Ultimate_Final_Fix
 
 on:
   workflow_dispatch: 
@@ -7,22 +7,22 @@ jobs:
   run-scraper:
     runs-on: ubuntu-latest
     steps:
-      - name: 1. კოდის ჩამოტვირთვა
+      - name: 1. Code Download
         uses: actions/checkout@v3
 
-      - name: 2. ნოუდის მომზადება
+      - name: 2. Node Setup
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: 3. ბრაუზერის ბიბლიოთეკების დაყენება
+      - name: 3. Browser Fix (Linux Libs)
         run: |
           sudo apt-get update
           sudo apt-get install -y libgbm-dev wget gnupg libnss3 libatk-bridge2.0-0 libgtk-3-0 libasound2 xvfb
 
-      - name: 4. NPM პაკეტების დაყენება
+      - name: 4. NPM Install
         run: npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth axios
 
-      - name: 5. სკრიპტის გაშვება ვირტუალური ეკრანით
-        # xvfb-run აუცილებელია "Missing X server" ერორის მოსაცილებლად
+      - name: 5. Start Scraper with Virtual Display
+        # ყურადღება! აქ უნდა ეწეროს xvfb-run
         run: xvfb-run node scraper.js
