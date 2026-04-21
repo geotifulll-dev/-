@@ -1,4 +1,4 @@
-name: AUTOWINI_WORK_NOW_PLEASE
+name: FORCE_RUN_AUTOWINI
 
 on:
   workflow_dispatch: 
@@ -7,22 +7,21 @@ jobs:
   run-scraper:
     runs-on: ubuntu-latest
     steps:
-      - name: 1. Checkout
+      - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: 2. Node Setup
+      - name: Install Node
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: 3. Fix Browser (CRUCIAL)
+      - name: Install Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y libgbm-dev wget gnupg libnss3 libatk-bridge2.0-0 libgtk-3-0 libasound2 xvfb
 
-      - name: 4. Install NPM
+      - name: Install Puppeteer
         run: npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth axios
 
-      - name: 5. Start XVFB and Scraper
-        # სწორედ აქ არის გამოსავალი!
+      - name: Final Launch
         run: xvfb-run --server-args="-screen 0 1920x1080x24" node scraper.js
