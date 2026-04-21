@@ -1,4 +1,4 @@
-name: Autowini Pro Scraper
+name: Autowini Final Scraper
 
 on:
   workflow_dispatch: 
@@ -23,6 +23,5 @@ jobs:
       - name: 4. პაკეტების დაყენება
         run: npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth axios
 
-      - name: 5. სკრიპტის გაშვება XVFB-ით (გარანტირებული მუშაობა)
-        # xvfb-run არის ის, რაც სერვერზე "X Server"-ს აიმიტირებს
+      - name: 5. გაშვება XVFB-ით
         run: xvfb-run node scraper.js
