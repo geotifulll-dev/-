@@ -1,31 +1,47 @@
-name: Autowini Scraper
+name: Autowini Detailed Scraper
 
 on:
   schedule:
+    # ავტომატური გაშვება ყოველ 2 საათში ერთხელ
     - cron: "0 */2 * * *"
   workflow_dispatch: 
+    # ხელით გაშვების ღილაკი Actions ტაბიდან
 
 jobs:
   run-scraper:
     runs-on: ubuntu-latest
-    
+
     steps:
-      - name: Get Scraper Code
+      - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Install Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      # აი ეს ნაბიჯი არის აუცილებელი Puppeteer-ისთვის Linux-ზე:
-      - name: Install Linux Dependencies
+      # აი ეს ნაბიჯი ასწორებს შენს შეცდომას (Missing X server)
+      - name: Install Browser Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgbm-dev wget gnupg libnss3 libatk-bridge2.0-0 libgtk-3-0 libasound2
+          sudo apt-get install -y \
+            libgbm-dev \
+            libnss3 \
+            libatk-bridge2.0-0 \
+            libgtk-3-0 \
+            libasound2 \
+            libxss1 \
+            libxtst6 \
+            libxcomposite1 \
+            libxdamage1 \
+            libxrandr2 \
+            libpangocairo-1.0-0 \
+            libatk1.0-0 \
+            libcups2
 
-      - name: Install Node Packages
+      - name: Install NPM Packages
         run: npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth axios
-      
-      - name: Run Magic Script
+
+      - name: Run Magic Scraper
+        # ამ ნაბიჯით ეშვება შენი scraper.js
         run: node scraper.js
