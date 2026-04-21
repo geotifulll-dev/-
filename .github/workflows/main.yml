@@ -1,47 +1,28 @@
-name: Autowini Detailed Scraper
+name: Autowini Pro Scraper
 
 on:
-  schedule:
-    # ავტომატური გაშვება ყოველ 2 საათში ერთხელ
-    - cron: "0 */2 * * *"
   workflow_dispatch: 
-    # ხელით გაშვების ღილაკი Actions ტაბიდან
 
 jobs:
   run-scraper:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Code
+      - name: 1. კოდის ჩამოტვირთვა
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: 2. ნოუდის დაყენება
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      # აი ეს ნაბიჯი ასწორებს შენს შეცდომას (Missing X server)
-      - name: Install Browser Dependencies
+      - name: 3. სისტემური ბიბლიოთეკების დაყენება
         run: |
           sudo apt-get update
-          sudo apt-get install -y \
-            libgbm-dev \
-            libnss3 \
-            libatk-bridge2.0-0 \
-            libgtk-3-0 \
-            libasound2 \
-            libxss1 \
-            libxtst6 \
-            libxcomposite1 \
-            libxdamage1 \
-            libxrandr2 \
-            libpangocairo-1.0-0 \
-            libatk1.0-0 \
-            libcups2
+          sudo apt-get install -y libgbm-dev wget gnupg libnss3 libatk-bridge2.0-0 libgtk-3-0 libasound2 xvfb
 
-      - name: Install NPM Packages
+      - name: 4. პაკეტების დაყენება
         run: npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth axios
 
-      - name: Run Magic Scraper
-        # ამ ნაბიჯით ეშვება შენი scraper.js
-        run: node scraper.js
+      - name: 5. სკრიპტის გაშვება XVFB-ით (გარანტირებული მუშაობა)
+        # xvfb-run არის ის, რაც სერვერზე "X Server"-ს აიმიტირებს
+        run: xvfb-run node scraper.js
