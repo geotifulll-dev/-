@@ -1,27 +1,31 @@
-name: Aversi Price Scraper
+name: Autowini Scraper
 
 on:
   schedule:
-    # 0 */2 * * * ნიშნავს 2 საათში ერთხელ. დღეში იქნება 12 გაშვება ავტომატურად.
     - cron: "0 */2 * * *"
   workflow_dispatch: 
-    # ეს დაგვეხმარება მექანიკურადაც გავუშვათ ხოლმე ღილაკის დაჭერით მოსასინჯად
 
 jobs:
   run-scraper:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Get Scraper Code
-      uses: actions/checkout@v3
+      - name: Get Scraper Code
+        uses: actions/checkout@v3
 
-    - name: Install Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
-    - name: Install Node Packages
-      run: npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth axios
+      # აი ეს ნაბიჯი არის აუცილებელი Puppeteer-ისთვის Linux-ზე:
+      - name: Install Linux Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgbm-dev wget gnupg libnss3 libatk-bridge2.0-0 libgtk-3-0 libasound2
+
+      - name: Install Node Packages
+        run: npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth axios
       
-    - name: Run Magic Script
-      run: node scraper.js
+      - name: Run Magic Script
+        run: node scraper.js
