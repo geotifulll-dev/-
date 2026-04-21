@@ -1,4 +1,4 @@
-name: Autowini_Scraper_Final
+name: AUTOWINI_WORK_NOW_PLEASE
 
 on:
   workflow_dispatch: 
@@ -7,22 +7,22 @@ jobs:
   run-scraper:
     runs-on: ubuntu-latest
     steps:
-      - name: 1. Code Checkout
+      - name: 1. Checkout
         uses: actions/checkout@v3
 
-      - name: 2. Setup Node
+      - name: 2. Node Setup
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: 3. Install System Dependencies
+      - name: 3. Fix Browser (CRUCIAL)
         run: |
           sudo apt-get update
           sudo apt-get install -y libgbm-dev wget gnupg libnss3 libatk-bridge2.0-0 libgtk-3-0 libasound2 xvfb
 
-      - name: 4. Install Packages
+      - name: 4. Install NPM
         run: npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth axios
 
-      - name: 5. RUN WITH XVFB
-        # xvfb-run არის ის, რაც სერვერს "ვირტუალურ მონიტორს" აძლევს
-        run: xvfb-run node scraper.js
+      - name: 5. Start XVFB and Scraper
+        # სწორედ აქ არის გამოსავალი!
+        run: xvfb-run --server-args="-screen 0 1920x1080x24" node scraper.js
