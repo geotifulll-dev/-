@@ -110,7 +110,7 @@ async function scrapeCarDetail(page, url) {
     console.log("🚀 სკრაპერი ჩაირთო გარანტირებულ Headless რეჟიმში...");
 
     const browser = await puppeteer.launch({
-        headless: "true",
+        headless: true, // აქ წაშალე ბრჭყალები, უნდა იყოს მხოლოდ true
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
